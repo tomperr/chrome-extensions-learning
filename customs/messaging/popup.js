@@ -18,7 +18,7 @@ call_extension_background.addEventListener("click", () => {
 });
 
 // Calling content and getting response
-call_extension_content.addEventListener("click", async () => {
+call_extension_content.addEventListener("click", () => {
 
     console.log("[EXTENSION] Calling content...");
 
@@ -32,29 +32,42 @@ call_extension_content.addEventListener("click", async () => {
         }
     );
 
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: fetchNumberOfDivs,
+    const queryInfo = {
+        active: true,
+        currentWindow: true
+    };
+
+    chrome.tabs && chrome.tabs.query(queryInfo, tabs => {
+        const currentTabId = tabs[0].id;
+        chrome.scripting.executeScript({
+            target: { tabId: currentTabId },
+            function: fetchNumberOfDivs,
+        });
     });
 
 });
 
 // Injecting script in content
-inject_content.addEventListener("click", async () => {
+inject_content.addEventListener("click", () => {
 
     console.log("[EXTENSION] Injecting content...");
 
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: changeBackgroundColor,
-    });
+    const queryInfo = {
+        active: true,
+        currentWindow: true
+    };
 
+    chrome.tabs && chrome.tabs.query(queryInfo, tabs => {
+        const currentTabId = tabs[0].id;
+        chrome.scripting.executeScript({
+            target: { tabId: currentTabId },
+            function: changeBackgroundColor,
+        });
+    });
 });
 
 // Injecting script in content, that calls background and receive a response
-call_content_background.addEventListener("click", async () => {
+call_content_background.addEventListener("click", () => {
 
     console.log("[EXTENSION] Calling content...");
 
@@ -68,11 +81,19 @@ call_content_background.addEventListener("click", async () => {
         }
     );
 
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: askNbCookies,
+    const queryInfo = {
+        active: true,
+        currentWindow: true
+    };
+
+    chrome.tabs && chrome.tabs.query(queryInfo, tabs => {
+        const currentTabId = tabs[0].id;
+        chrome.scripting.executeScript({
+            target: { tabId: currentTabId },
+            function: askNbCookies,
+        });
     });
+    
 
 });
 
