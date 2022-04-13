@@ -1,17 +1,17 @@
 {
-  "name": "Messaging exemple",
-  "description": "Understanding messaging",
+  "name": "Cookie Classifier",
+  "description": "Classify cookies into categories",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
   "permissions": [
-    "<all_urls>",
     "activeTab",
     "scripting",
     "cookies",
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "host_permissions": [
     "<all_urls>",
