@@ -11,7 +11,9 @@
     "scripting",
     "cookies",
     "tabs",
-    "storage"
+    "storage",
+    "webNavigation",
+    "webRequest"
   ],
   "host_permissions": [
     "<all_urls>",
