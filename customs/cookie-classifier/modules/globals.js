@@ -8,7 +8,6 @@ Released under the MIT License, see included LICENSE file.
 */
 //-------------------------------------------------------------------------------
 
-
 const enableExtraOptions = false;
 
 /**
@@ -92,8 +91,6 @@ const setStorageValue = async function(newValue, stType, key, override = true) {
 */
 const getExtensionFile = function(url, dtype, callback, errorCallback = null) {
 
-    
-
     let headers = new Headers({
         'Content-Type': dtype
     });
@@ -103,9 +100,18 @@ const getExtensionFile = function(url, dtype, callback, errorCallback = null) {
     };
 
     fetch(url, initObject)
-        .then(function (response) {
+        .then((response) => {
+            console.log("[BACKGROUND] Fetch response :");
             console.log(response);
-            callback(this.response)
+            if (dtype == "json")
+                return response.json();
+            else
+                return response;
+        })
+        .then(function (data) {
+            console.log("[BACKGROUND] Fetch response data :");
+            console.log(data);
+            callback(data)
         })
         .catch(function (err) {
             console.log("Something went wrong!", err);

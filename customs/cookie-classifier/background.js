@@ -157,12 +157,14 @@ const updateFEInput = async function(storedFEInput, rawCookie) {
  */
 const classifyCookie = async function(cookieDat, feature_input) {
 
-    console.log("[BACKGROUND] entering classifyCookie");
+    // console.log("[BACKGROUND] entering classifyCookie");
 
     let features = extractFeatures(feature_input);
+    console.log("[BACKGROUND] features extracted");
+    console.log(features);
     label = await predictClass(features, cblk_pscale);
 
-    console.log("[BACKGROUND] leaving classifyCookie");
+    // console.log("[BACKGROUND] leaving classifyCookie");
 
     return label;
 };
@@ -175,12 +177,17 @@ const classifyCookie = async function(cookieDat, feature_input) {
  */
  const handleCookie = async function (newCookie, storeUpdate, overrideTimeCheck){
 
-    console.log("[BACKGROUND] entering handleCookie");
+    //console.log("[BACKGROUND] entering handleCookie");
     serializedCookie = createFEInput(newCookie);
+    
+    console.log("[BACKGROUND] serialized cookie:");
+    console.log(serializedCookie);
+
     console.assert(serializedCookie !== undefined, "Cookie object was still undefined!");
 
     clabel = await classifyCookie(newCookie, serializedCookie);
-    console.log("[BACKGROUND] leaving handleCookie");
+    console.log("[BACKGROUND] Label found: " + clabel);
+    //console.log("[BACKGROUND] leaving handleCookie");
 }
 
 /**
@@ -204,3 +211,11 @@ chrome.runtime.onInstalled.addListener((details) => {
         chrome.tabs.create({"active": true, "url": "/options/cookieblock_setup.html"});
     }
 });
+
+// Load the default configuration
+getExtensionFile(chrome.runtime.getURL("ext_data/default_config.json"), "json", (dConfig) => {
+    initDefaults(dConfig, false)
+});
+
+// retrieve the configuration
+getExtensionFile("ext_data/features.json", "json", setupFeatureResourcesCallback);
