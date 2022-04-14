@@ -162,8 +162,9 @@ const classifyCookie = async function(cookieDat, feature_input) {
     let features = extractFeatures(feature_input);
     console.log("[BACKGROUND] features extracted");
     console.log(features);
-    label = await predictClass(features, cblk_pscale);
-
+    //label = await predictClass(features, cblk_pscale);
+    label = await predictClass(features, 1);
+    
     // console.log("[BACKGROUND] leaving classifyCookie");
 
     return label;
